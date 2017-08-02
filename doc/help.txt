@@ -45,11 +45,11 @@ Retropropagacion, Perceptron y Adaline:
 
 	-interSum: realiza interpolacion mediante suma, ver documentacion.
 	
-	-na: numero de atributos para el fichero serie
+	-na: numero de atributos para el fichero serie.
 	
 	-norm: normaliza los datos, columna por columna, solo para los atributos
 
-	-ns: numero de salidas para el fichero seire
+	-ns: numero de salidas para el fichero seire.
 
 	-p: utiliza una red neuronal de tipo perceptron.
 
@@ -65,6 +65,9 @@ Retropropagacion, Perceptron y Adaline:
 	-test: especifica el tanto por ciento de datos que iran a train, este valor
 		tiene que se mayor que 0.0 y menor o igual a 1.0.
 		Si se quiere calsificar un archvio establecer este valor a 1.
+
+	-serie: usa como conjunto de aprendizaje los datos de una serie, estos han
+		han de estar en un fichero y se deben especificar las opciones -na y -ns.
 
 
 	NOTAS:
