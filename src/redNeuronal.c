@@ -162,7 +162,7 @@ void destRed2(redNeuronal* red){
 	free(red->neuronas);
 }
 
-int copiaRed(redNeuronal* redIn, redNeuronal* redOut){
+int copiaRed(const redNeuronal* redIn, redNeuronal* redOut){
 	int numNeu1=0, i=0;
 	if (redIn==NULL|| redOut==NULL){
 		return 1;
@@ -183,6 +183,71 @@ int copiaRed(redNeuronal* redIn, redNeuronal* redOut){
 	}
 	return 0;
 }
+
+int actualizaSalida(redNeuronal* red, double (*fActualizacion)(neurona*), double* entrada){
+
+	int i = 0;
+
+	if ((red == NULL) || (fActualizacion == NULL) || (entrada == NULL)){
+		return 1;
+	}
+	/*printf("actualiza neuronas de entrada\n");
+	*/for(i = 0 ; i < red->entradas ; i++)
+		actualizaNeuronaEntrada(&(red->neuronas[i]), entrada[i]);
+
+	/*printf("actualiza neuronas de salida\n");
+*/
+
+	if(red->ocultas > 0){
+		for(i = red->entradas+1 ; i < (red->entradas + red->ocultas + red->salidas +2); i++){
+			(*fActualizacion)(&(red->neuronas[i]));
+		}
+	}
+	else{
+		for(i = red->entradas+1 ; i < (red->entradas + red->salidas)+1 ; i++){
+			(*fActualizacion)(&(red->neuronas[i]));
+		}
+	}
+	return 0;
+
+}
+
+
+
+
+int actualizaSalida2(redNeuronal* red, double (*fActualizacion)(neurona*), double* entrada){
+
+	int i = 0;
+
+	if ((red == NULL) || (fActualizacion == NULL) || (entrada == NULL)){
+		return 1;
+	}
+	/*printf("actualiza neuronas de entrada\n");
+	*/for(i = 0 ; i < red->entradas ; i++)
+		actualizaNeuronaEntrada(&(red->neuronas[i]), entrada[i]);
+
+	/*printf("actualiza neuronas de salida\n");
+*/
+
+	if(red->ocultas > 0){
+		for(i = red->entradas+1 ; i < (red->entradas + red->ocultas + red->salidas +2); i++){
+			if (i < red->entradas + red->ocultas + 2){
+				(*fActualizacion)(&(red->neuronas[i]));
+			}
+			else{
+				actualizaNeuronaLineal(&(red->neuronas[i]));
+			}
+		}
+	}
+	else{
+		for(i = red->entradas+1 ; i < (red->entradas + red->salidas)+1 ; i++){
+			(*fActualizacion)(&(red->neuronas[i]));
+		}
+
+	}
+	return 0;
+}
+
 
 double actualizaPesosPerceptron(redNeuronal* red, double* t){
 	int i=0, j=0;
@@ -473,69 +538,6 @@ int paradaRetropropagacion(redNeuronal* red){
 }
 
 
-int actualizaSalida(redNeuronal* red, double (*fActualizacion)(neurona*), double* entrada){
-
-	int i = 0;
-
-	if ((red == NULL) || (fActualizacion == NULL) || (entrada == NULL)){
-		return 1;
-	}
-	/*printf("actualiza neuronas de entrada\n");
-	*/for(i = 0 ; i < red->entradas ; i++)
-		actualizaNeuronaEntrada(&(red->neuronas[i]), entrada[i]);
-
-	/*printf("actualiza neuronas de salida\n");
-*/
-
-	if(red->ocultas > 0){
-		for(i = red->entradas+1 ; i < (red->entradas + red->ocultas + red->salidas +2); i++){
-			(*fActualizacion)(&(red->neuronas[i]));
-		}
-	}
-	else{
-		for(i = red->entradas+1 ; i < (red->entradas + red->salidas)+1 ; i++){
-			(*fActualizacion)(&(red->neuronas[i]));
-		}
-	}
-	return 0;
-
-}
-
-
-
-
-int actualizaSalida2(redNeuronal* red, double (*fActualizacion)(neurona*), double* entrada){
-
-	int i = 0;
-
-	if ((red == NULL) || (fActualizacion == NULL) || (entrada == NULL)){
-		return 1;
-	}
-	/*printf("actualiza neuronas de entrada\n");
-	*/for(i = 0 ; i < red->entradas ; i++)
-		actualizaNeuronaEntrada(&(red->neuronas[i]), entrada[i]);
-
-	/*printf("actualiza neuronas de salida\n");
-*/
-
-	if(red->ocultas > 0){
-		for(i = red->entradas+1 ; i < (red->entradas + red->ocultas + red->salidas +2); i++){
-			if (i < red->entradas + red->ocultas + 2){
-				(*fActualizacion)(&(red->neuronas[i]));
-			}
-			else{
-				actualizaNeuronaLineal(&(red->neuronas[i]));
-			}
-		}
-	}
-	else{
-		for(i = red->entradas+1 ; i < (red->entradas + red->salidas)+1 ; i++){
-			(*fActualizacion)(&(red->neuronas[i]));
-		}
-
-	}
-	return 0;
-}
 redNeuronal* redTrain(int tentrada, datos* data,
 					redNeuronal* (*fini)(int, int, int, double),
 					int (*fsalida) (redNeuronal*, double (*fActualizacion)(neurona*), double*),

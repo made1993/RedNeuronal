@@ -31,7 +31,6 @@ extern int nf;
 ***	Inicializa toda la red y da valores a los pesos iniciales y a los sesgos
 ***	En las traspas pone que inicializa a cero.
 ***
-***
 **/
 redNeuronal* iniRedPerceptron(int entrada, int oculta, int salida, double tasa);
 
@@ -42,19 +41,41 @@ redNeuronal* iniRedPerceptron(int entrada, int oculta, int salida, double tasa);
 ***	Inicializa toda la red y da valores a los pesos iniciales y a los sesgos
 ***	En las traspas pone que inicializa aleatorio con valores pequeños.
 ***
-***
 **/
 redNeuronal* iniRedAdaline( int entrada, int salida, int oculta, double tasa);
 
+/**
+***
+***	Inicializa toda la red y da valores a las neuronas de entrada, a las ocultas,
+***	a las salidas y a los sesgos.
+***
+**/
 redNeuronal* iniRedRetropropagacion( int entrada, int salida, int oculta, double tasa);
 
 
+/**
+***
+***	Destruye la red neuronal.
+***
+**/
 
 void destRed1(redNeuronal* red);
 
+/**
+***
+***	Destruye las neuronas de la red.
+***
+**/
+
 void destRed2(redNeuronal* red);
 
-int copiaRed(redNeuronal* redIn, redNeuronal* redOut);
+/**
+***
+***	Copia una red neuronal a otra.
+***
+**/
+
+int copiaRed(const redNeuronal* redIn, redNeuronal* redOut);
 
 /**
 ***
